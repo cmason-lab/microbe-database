@@ -1,0 +1,22 @@
+process_emails.py
+	- checks for new emails and downloads them to 'submissions'
+	- sends out new assignments
+	- runs every hour via CRON
+
+process_submissions.py
+	- processes each excel file in 'submissions/unprocessed/'
+	- adds the data found their into the master spreadsheet
+	- moves the excel file from 'unprocessed/' to '/processed'
+	- runs at 12:00 pm on Mondays
+
+backup.py
+	- create backup on file system
+	- upload master spreadsheet to dropbox once a week
+		- may or may not implement
+	- run by process_submissions.py at the end of the script
+
+error.log
+	- errors from any of the above scripts are handled here
+	
+config.py
+	- constants
