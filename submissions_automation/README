@@ -1,22 +1,45 @@
+assess_master.py
+	- goes through the master spreadsheet, sees which organisms have no columns filled
+	and saves the results in a new spreadsheet
+
+create_assignments.py
+	- populates 'assignments/' by splitting assess_master.py's resulting spreadsheet
+	
+presearch_assignments.py
+	- presearches predefined databases to see if entries exist for the Genus species
+	- saves HTML file with the above results, named as ID number_week number_presearch.html
+		- open this file in web browser to assist with annotations
+
+annotations_automator.py
+	- actually carries out the presearch in presearch_assignments.py
+	
 process_emails.py
 	- checks for new emails and downloads them to 'submissions'
+		- changes email label from 'unprocessed' to 'processed'
 	- sends out new assignments
 	- runs every hour via CRON
 
 process_submissions.py
-	- processes each excel file in 'submissions/unprocessed/'
-	- adds the data found their into the master spreadsheet
-	- moves the excel file from 'unprocessed/' to '/processed'
-	- runs at 12:00 pm on Mondays
+	- processes each excel file in 'submissions/unprocessed/' and updates the master spreadsheet
+		- moves the excel file from '/unprocessed/' to '/processed/'
+	- sends out new assignments via email
+		- attaches template from '/assignments/ID number/ID number_week number.xlsx'
+		- attaches helper HTML file from '/assignments/ID number/ID number_week number.html'
+	- runs at 12:00 pm on Mondays via CRON
 
 backup.py
 	- create backup on file system
 	- upload master spreadsheet to dropbox once a week
 		- may or may not implement
-	- run by process_submissions.py at the end of the script
+	- run by process_submissions.py at the end of the script (so we have an updated file)
 
 error.log
 	- errors from any of the above scripts are handled here
 	
 config.py
 	- constants
+	
+compile_summer_submissions.py
+	- processes each excel file from the summer 'submissions/unprocessed/'
+	- this req's a different python file bc these are formatted differently
+	- only run once at the beginning of the project

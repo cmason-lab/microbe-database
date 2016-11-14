@@ -13,6 +13,10 @@ PROCESSED_EMAILS = 'processed_emails.csv'
 # Where we are going to save the submissions
 UNPROCESSED_SUBMISSIONS_DIR = 'submissions/unprocessed/'
 PROCESSED_SUBMISSIONS_DIR = 'submissions/processed/'
+MASTER_WS_PATH = 'annotations_master.xlsx'
+ASSIGNMENTS_DIR = 'assignments\\'
+TEMPLATE_PATH = 'annotations_template.xlsx'
+ANN_TO_ASSIGN_PATH = 'annotations_to_assign.xlsx'
 
 # ------------------------- ERROR LOGGING
 

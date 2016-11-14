@@ -3,6 +3,10 @@
 import openpyxl
 
 #read_path = 'summer_2016/presummer_annotations_master.xlsx'
+#read_path = 'summer_2016/submissions/Annotations_01_Maddie.xlsx'
+read_path = 'summer_2016/submissions/Annotations_02_Raghav.xlsx'
+# Anotations_06_David.xlsx was processed by 'process_submissions.py' bc it's formatted like the new ones
+
 master_path = 'annotations_master.xlsx'
 
 # Start to read annotations from the old master annotations

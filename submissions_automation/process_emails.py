@@ -5,6 +5,8 @@ import email
 import sys
 import os
 
+import email_assistant
+
 # Import all configuration variables from config.py; includes logging
 from config import *
 
@@ -102,3 +104,7 @@ for email_id in unprocessed_email_ids:
     
     # Move the email from 'Unprocessed' to 'Processed'
     change_email_label(email_id, 'Processed')
+    
+    # Send out their new assignement
+    asst = email_assistant.EmailAssistant(USERNAME, PASSWORD)
+    #asst.send_email('david@reflashed.com', 'SUBJECT TEST', 'test', ['file1.png', 'file2.png'])
