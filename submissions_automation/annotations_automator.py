@@ -96,7 +96,7 @@ class AnnotationsAutomator():
                 searchEncoded = urllib.parse.urlencode({search_key: organism})
                 url = '{}{}'.format(search_url, searchEncoded)
                 req = urllib.request.Request(url)
-                print("URL: " + url)
+                #print("URL: " + url)
             else:
                 searchEncoded = urllib.parse.urlencode({search_key: organism})
 
@@ -104,7 +104,7 @@ class AnnotationsAutomator():
                     searchEncoded = searchEncoded + "&" + urllib.parse.urlencode(optional_params)
                     
                 req = urllib.request.Request(search_url, searchEncoded.encode('ASCII'))
-                print("URL: " + search_url)
+                #print("URL: " + search_url)
 
             try:
                 with urllib.request.urlopen(req) as resp:
@@ -112,14 +112,14 @@ class AnnotationsAutomator():
                     #print("Response: " + respHTML.decode('UTF-8'))
 
                     genus = re.match('(.+) .+', organism).group(1)
-                    print("Genus: " + genus)
+                    #print("Genus: " + genus)
 
                     species = re.match('.+ (.+)', organism).group(1)
-                    print("Species: " + species)
+                    #print("Species: " + species)
 
                     # organism is the binomial: Genus species
                     search_str = regex.format(organism=organism, species=species, genus=genus)
-                    print("RegEx: " + search_str)
+                    #print("RegEx: " + search_str)
                     m = re.search(search_str.encode('utf-8'), respHTML, re.IGNORECASE)
                     if(m):
                         url = base_url + m.group(1).decode('UTF-8')

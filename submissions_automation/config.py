@@ -14,9 +14,11 @@ PROCESSED_EMAILS = 'processed_emails.csv'
 UNPROCESSED_SUBMISSIONS_DIR = 'submissions/unprocessed/'
 PROCESSED_SUBMISSIONS_DIR = 'submissions/processed/'
 MASTER_WS_PATH = 'annotations_master.xlsx'
-ASSIGNMENTS_DIR = 'assignments\\'
+UNASSIGNED_ASSIGNMENTS_DIR = 'assignments\\unassigned\\'
+ASSIGNED_ASSIGNMENTS_DIR = 'assignments\\assigned\\'
 TEMPLATE_PATH = 'annotations_template.xlsx'
 ANN_TO_ASSIGN_PATH = 'annotations_to_assign.xlsx'
+SUBMITTERS_PATH = 'submitters.xlsx'
 
 # ------------------------- ERROR LOGGING
 

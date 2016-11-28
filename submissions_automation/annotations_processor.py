@@ -46,12 +46,16 @@ Move and process xlsx files by column and organism name'''
         for read_row in range(2, self.read_ws.max_row+1):
             # Get the name of the organism
             cell = self.read_ws.cell(row = read_row, column = 1)
-            # See where this organism is at in the write_ws
-            write_row = self.write_row_from_organism_name[cell.value]
             
-            # Update each column in the write_ws with that from read_ws
-            for i in range(3, self.read_ws.max_column+1):
-                self.copy_cell(read_row, i, write_row, i)
+            try:
+                # See where this organism is at in the write_ws
+                write_row = self.write_row_from_organism_name[cell.value]
+                
+                # Update each column in the write_ws with that from read_ws
+                for i in range(3, self.read_ws.max_column+1):
+                    self.copy_cell(read_row, i, write_row, i)
+            except:
+                print('Error. Probably a blank value...')
 
     def save(self):
         ''' Save changes to the write_wb '''

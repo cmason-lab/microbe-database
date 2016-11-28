@@ -18,7 +18,7 @@ for row in range(2, read_ws.max_row+1):
         cell = read_ws.cell(row = row, column = col)
         val = cell.value
         
-        if not (cell.value == '#N/A' or cell.value == None or cell.value == 0 or cell.value == '0'):
+        if not (cell.value == '#N/A' or cell.value == 'NA' or cell.value == None or cell.value == 0 or cell.value == '0'):
             # Cell is not empty
             cell_is_empty = False
             break

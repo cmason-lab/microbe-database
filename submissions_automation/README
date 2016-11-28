@@ -1,9 +1,18 @@
+----- CREATING ASSIGNMENTS TO EMAIL OUT -----
+
+*** This should only be done once at the beginning of the project
+
+1) Run assess_master.py
+2) Delete everything in 'assignments/unassigned/' then run create_assignments.py
+	- modify constants such as num_submitters and submissions_pwer_week
+3) Run presearch_assignments.py  to create helper HTML files for each assignment
+
 assess_master.py
-	- goes through the master spreadsheet, sees which organisms have no columns filled
-	and saves the results in a new spreadsheet
+	- goes through annotations_master.xlsx and sees which organisms have no columns filled
+		- populate annotations_to_assign.xlsx with the blank organisms
 
 create_assignments.py
-	- populates 'assignments/' by splitting assess_master.py's resulting spreadsheet
+	- populates 'assignments/unassigned/' by splitting assess_master.py's resulting spreadsheet
 	
 presearch_assignments.py
 	- presearches predefined databases to see if entries exist for the Genus species
@@ -13,19 +22,32 @@ presearch_assignments.py
 annotations_automator.py
 	- actually carries out the presearch in presearch_assignments.py
 	
+----- EMAIL WORKFLOW -----
+
+*** Only run initial_assignments_email.py once at the beginning of the project!!!
+1) initial_assignments_email.py gives everyone an assignment and starts the workflow
+2) process_emails.py (akcnowledges submissions) runs every hour via CRON
+3) process_submissions.py (actually updates master) runs at 12:00 pm on Mondays via CRON
+
+submitters.xlsx
+	- the first sheet contains ID number, name, and contact info for each volunteer
+	- each volunteer also gets a sheet named by his or her ID number--this will contain a log on what
+	he/she has been assigned
+
 process_emails.py
 	- checks for new emails and downloads them to 'submissions'
 		- changes email label from 'unprocessed' to 'processed'
-	- sends out new assignments
+	- updates submitters.xlsx and acknowledges the submission
+	- sends out new assignment
+		- attaches template from '/assignments/ID number/ID number_week number.xlsx'
+		- attaches helper HTML file from '/assignments/ID number/ID number_week number.html'
 	- runs every hour via CRON
 
 process_submissions.py
 	- processes each excel file in 'submissions/unprocessed/' and updates the master spreadsheet
 		- moves the excel file from '/unprocessed/' to '/processed/'
-	- sends out new assignments via email
-		- attaches template from '/assignments/ID number/ID number_week number.xlsx'
-		- attaches helper HTML file from '/assignments/ID number/ID number_week number.html'
 	- runs at 12:00 pm on Mondays via CRON
+	- runs backup.py
 
 backup.py
 	- create backup on file system
@@ -33,13 +55,23 @@ backup.py
 		- may or may not implement
 	- run by process_submissions.py at the end of the script (so we have an updated file)
 
-error.log
-	- errors from any of the above scripts are handled here
+----- RANDOM STUFF -----
+
+annotations_master.xlsx
+	- the current, live copy of the database
+
+submitters.xlsx
+	- contains contact info for each submitter from Fall 2016/Spring 2017
+	- logs each assignment/submission by submitter ID in a separate sheet
 	
 config.py
 	- constants
+
+error.log
+	- errors from any of the above scripts are handled here
 	
 compile_summer_submissions.py
-	- processes each excel file from the summer 'submissions/unprocessed/'
+	- processes each excel file from the summer of 2016 'submissions/unprocessed/'
+		- adds each summer intern's submissions to annotations_master.xlsx
 	- this req's a different python file bc these are formatted differently
 	- only run once at the beginning of the project

@@ -31,6 +31,7 @@ Move and process xlsx files by column and organism name'''
         msg.attach(MIMEText(body, 'plain'))
         
         for attachment in attachments:
+            print(attachment)
             with open(attachment, 'rb') as f:
                 part = MIMEApplication(
                     f.read(),
