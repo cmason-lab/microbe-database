@@ -16,9 +16,7 @@ for row in range(2, ws.max_row+1):
     submitter_first = ws.cell(row = row, column = 2).value
     submitter_last = ws.cell(row = row, column = 3).value
     submitter_email = ws.cell(row = row, column = 4).value
-    print(submitter_id)
-    exit()
-    submitter_email = 'david@reflashed.com'
+    #submitter_email = 'david@reflashed.com'
     
     submitter_ws = wb['{}'.format(submitter_id)]
     

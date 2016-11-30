@@ -1,0 +1,4 @@
+# minute(0-59) hour(0-23) day(1-31) month(1-12) weekday(0-6) command
+0 12 * * 1 /home/daw2035/microbe_db/submissions_automation/process_submissions.$
+0 * * * * /home/daw2035/microbe_db/submissions_automation/process_emails.py
+0 0 * * * /home/daw2035/microbe_db/submissions_automation/backup.sh

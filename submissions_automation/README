@@ -49,11 +49,11 @@ process_submissions.py
 	- runs at 12:00 pm on Mondays via CRON
 	- runs backup.py
 
-backup.py
-	- create backup on file system
+backup.sh
+	- create backup on file system (in backups/) of submitters.xlsx and annotations_master.xlsx
 	- upload master spreadsheet to dropbox once a week
 		- may or may not implement
-	- run by process_submissions.py at the end of the script (so we have an updated file)
+	- run by CRON once a day
 
 ----- RANDOM STUFF -----
 
