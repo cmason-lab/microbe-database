@@ -100,7 +100,7 @@ for email_id in unprocessed_email_ids:
                     # Save the attachment
                     with open(submission_save_path, 'wb') as f:
                         # Uncomment later!!!
-                        #f.write(part.get_payload(decode=True))
+                        f.write(part.get_payload(decode=True))
                         has_attachment = True
                 else:
                     log('Error saving attachment, {}, for email {}. File already exists and/or is not a .xlsx file'.format(submission_save_path, email_msg['Message-ID']))
@@ -148,8 +148,6 @@ for email_id in unprocessed_email_ids:
                 do_break = True
                 break
    
-    print(new_assignment_id)
-    exit()
     # If not, we are finished?
     if(new_assignment_id):
         save_row = submitter_ws.max_row+1
