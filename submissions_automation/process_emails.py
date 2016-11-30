@@ -57,9 +57,10 @@ for email_id in unprocessed_email_ids:
     submitter_email = email_msg['From']
     
     # Gmail automatically adds sent emails to the inbox...
-    if(submitter_email == 'David Westfall <microbe.submissions@gmail.com>'):
+    if(subject == 'Mason Lab Microbe Database - New Assignment'):
+        print('From us, skipping email.')
         continue
-        
+    
     # Subject line is formatted as {Submitter ID} {Assignment ID}
     # Try to parse this. If there's an error, write this in the log
     try:
@@ -98,7 +99,8 @@ for email_id in unprocessed_email_ids:
                 if not os.path.isfile(submission_save_path) and extension == '.xlsx':
                     # Save the attachment
                     with open(submission_save_path, 'wb') as f:
-                        f.write(part.get_payload(decode=True))
+                        # Uncomment later!!!
+                        #f.write(part.get_payload(decode=True))
                         has_attachment = True
                 else:
                     log('Error saving attachment, {}, for email {}. File already exists and/or is not a .xlsx file'.format(submission_save_path, email_msg['Message-ID']))
@@ -141,10 +143,13 @@ for email_id in unprocessed_email_ids:
             extension = os.path.splitext(os.path.basename(file_path))[1]
             
             if extension == '.xlsx':
+                print(file_path)
                 new_assignment_id = os.path.splitext(os.path.basename(file_path))[0]
                 do_break = True
                 break
-    
+   
+    print(new_assignment_id)
+    exit()
     # If not, we are finished?
     if(new_assignment_id):
         save_row = submitter_ws.max_row+1
