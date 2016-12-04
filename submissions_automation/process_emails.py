@@ -49,7 +49,9 @@ def change_email_label( email_id, label ):
     mail.store(email_id , '+FLAGS', '(\Deleted)')
     mail.expunge()
 
-for email_id in unprocessed_email_ids:
+# You have to do reversed, bc after you process an email, you change the IDs
+# of all emails on the server. Going in reverse will prevent changing index problems
+for email_id in reversed(unprocessed_email_ids):
     email_msg = get_email_by_id(email_id)
     
     # Parse the emails by subject to see what was submitted
