@@ -21,5 +21,10 @@ for subdirs, dirs, files in os.walk(UNPROCESSED_SUBMISSIONS_DIR):
     for filename in files:
         file_path = '{}{}'.format(UNPROCESSED_SUBMISSIONS_DIR, filename)
         process_workbook(file_path)
+        
         # Move the file from unprocessed to processed
-        os.rename(file_path, '{}{}'.format(PROCESSED_SUBMISSIONS_DIR, filename))
+        processed_save_path = '{}{}'.format(PROCESSED_SUBMISSIONS_DIR, filename)
+        
+        if os.path.isfile(processed_save_path):
+            os.remove(processed_save_path)
+        os.rename(file_path, processed_save_path)
