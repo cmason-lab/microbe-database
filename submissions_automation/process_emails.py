@@ -202,14 +202,14 @@ for email_id in reversed(unprocessed_email_ids):
         save_row = submitter_ws.max_row+1
         
         # Move the old assignment
-        shutil('{}{}/'.format(UNASSIGNED_ASSIGNMENTS_DIR, new_assignment_id), '{}{}/'.format(ASSIGNED_ASSIGNMENTS_DIR, new_assignment_id))
+        shutil.move('{}{}/'.format(UNASSIGNED_ASSIGNMENTS_DIR, new_assignment_id), '{}{}/'.format(ASSIGNED_ASSIGNMENTS_DIR, new_assignment_id))
                     
         # Attach everything in this dir
         attachment_dir = '{}{}'.format(ASSIGNED_ASSIGNMENTS_DIR, new_assignment_id)
         attachments = ['{}{}/{}'.format(ASSIGNED_ASSIGNMENTS_DIR, new_assignment_id, file) for file in os.listdir(attachment_dir)]
 
         asst = email_assistant.EmailAssistant(USERNAME, PASSWORD)
-        #asst.send_email(submitter_email, 'Mason Lab Microbe Database - New Assignment', 'Thank you for your previous submission! This set of annotations corrresponds to assignment ID {}. Recall, your submitter ID is {}. Whenever you submit this assignment, the subject line must read {}_{}. This is extremely important!! Please do not reply to this email with anything but submissions! Send all questions to hebashaaban1@gmail.com and daw2035@med.cornell.edu. Keep up the good work!'.format(new_assignment_id, submitter_id, submitter_id, new_assignment_id), attachments)
+        asst.send_email(submitter_email, 'Mason Lab Microbe Database - New Assignment', 'Thank you for your previous submission! This set of annotations corrresponds to assignment ID {}. Recall, your submitter ID is {}. Whenever you submit this assignment, the subject line must read {}_{}. This is extremely important!! Please do not reply to this email with anything but submissions! Send all questions to hebashaaban1@gmail.com and daw2035@med.cornell.edu. Keep up the good work!'.format(new_assignment_id, submitter_id, submitter_id, new_assignment_id), attachments)
         
         # Log that we sent out a new assignment
         submitter_ws.cell(row = save_row, column = 1).value = new_assignment_id
