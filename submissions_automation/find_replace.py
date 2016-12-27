@@ -3,18 +3,10 @@
 
 import openpyxl
 import re
+from config import *
 
 path = 'annotations_master 12-19-16 - Copy.xlsx'
 
-keys_to_cols = {'optimal_pH': 13, 'optimal_temperature': 15, 'pathogenicity': 19,
-                'is_susceptible_to_antibiotics': 29, 'spore_forming': 49, 'biofilm_forming': 51,
-                'is_extremophile': 3, 'gram_stain': 41, 'found_in_microbiome': 7, 'plant_pathogen': 33,
-                'animal_pathogen': 35}
-
-type_from_key = {'optimal_pH': 'range', 'optimal_temperature': 'range', 'pathogenicity': '1-4',
-                'is_susceptible_to_antibiotics': 'binary', 'spore_forming': 'binary',
-                'biofilm_forming': 'binary', 'is_extremophile': 'binary', 'gram_stain': '0-2',
-                'found_in_microbiome': 'binary', 'plant_pathogen': 'binary', 'animal_pathogen': 'binary'}
 
 wb = openpyxl.load_workbook(filename = path)
 ws = wb.get_active_sheet()
@@ -33,7 +25,7 @@ for row in range(2, ws.max_row+1):
             ws.cell(row = row, column = col).value = ''
             continue
         
-        type = type_from_key[key] 
+        type = type_from_key[key]
         valid_type = True
         
         if type == 'range':  
