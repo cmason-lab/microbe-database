@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
-# coding=utf-8
+car = {}
+car[5] = 'hey'
 
-import os
-
-path = 'humann/A4.humann2_pathabundance.tsv'
-
-bn = os.path.basename(path)
-no_ext = os.path.splitext(bn)[0]
+if(car[5]):
+    print('hi')

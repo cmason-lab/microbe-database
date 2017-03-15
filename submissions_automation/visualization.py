@@ -62,7 +62,7 @@ def plot_range(data, y_label, data_name, save_name):
             x_data.append(x)
             y_data.append(single_value)
             color_data.append(color)
-            hover_data.append('{}: {}'.format(species, single))
+            hover_data.append('{}: {}'.format(species, single.replace(':', '-')))
         
         # Increment the x value
         x = x + .001
