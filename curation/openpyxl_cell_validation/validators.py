@@ -43,5 +43,4 @@ class CompositeValidator(AbstractValidator):
         for validator in self.__validators:
             if not validator.isValid(value):
                 return False
-        return True
-        
+        return True 
