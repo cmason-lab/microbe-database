@@ -24,12 +24,13 @@ class ColumnValidationTypes():
     '''Custom types corresponding to what's acceptable to be in a given spreadsheet cell'''
     BINARY = 'BINARY'
     TERNARY = 'TERNARY'
-    RANGE = 'RANGE'
+    RANGE = 'RANGE' # these will be converted to an average
     COGEM_PATHOGENICITY = 'COGEM_PATHOGENICITY'
 
 class SqlDataTypes():
     TEXT = 'TEXT'
     INTEGER = 'INTEGER'
+    REAL = 'REAL' # float
 
 class SpreadsheetConfig():
     class __SpreadsheetConfig():
@@ -38,12 +39,12 @@ class SpreadsheetConfig():
                 Columns.OPTIMAL_PH: {
                     'column': 13,
                     'validation_type': ColumnValidationTypes.RANGE,
-                    'sql_data_type': SqlDataTypes.TEXT
+                    'sql_data_type': SqlDataTypes.REAL
                 },
                 Columns.OPTIMAL_TEMPERATURE: {
                     'column': 15,
                     'validation_type': ColumnValidationTypes.RANGE,
-                    'sql_data_type': SqlDataTypes.TEXT
+                    'sql_data_type': SqlDataTypes.REAL
                 },
                 Columns.PATHOGENICITY: {
                     'column': 19,

@@ -3,17 +3,18 @@ import sqlite3
 import os
 import re
 
-from . import cell_validator_factory
-from . import spreadsheet_config
+from . import config
+from microbe_directory.config import Columns
+from microbe_directory.config import Columns
+from microbe_directory.config import Taxa
+from microbe_directory.config import ColumnValidationTypes
+from microbe_directory.config import SqlDataTypes
 
-from excel_microbe_directory.spreadsheet_config import Columns
-from excel_microbe_directory.spreadsheet_config import Taxa
-from excel_microbe_directory.spreadsheet_config import ColumnValidationTypes
-from excel_microbe_directory.spreadsheet_config import SqlDataTypes
+from .openpyxl_cell_validation import cell_validator_factory
 
 class Spreadsheet():
     def __init__(self, spreadsheet_path):
-        self.config = spreadsheet_config.SpreadsheetConfig()
+        self.config = config.SpreadsheetConfig()
         self.spreadsheet_path = spreadsheet_path
         
         wb = openpyxl.load_workbook(filename = spreadsheet_path)
@@ -39,11 +40,16 @@ class Spreadsheet():
             for column_name in self.config.getColumnNames():
                 column_number = self.config.getColumnNumber(column_name)
                 column_validation_type = self.config.getColumnValidationType(column_name)
-                cell_value = str(self.ws.cell(row=row, column=column_number))
+                cell_value = str(self.ws.cell(row=row, column=column_number).value)
                 
                 if self.validate_cell(cell_value, column_validation_type):
-                    dict[species][key] = cell_value
-        
+                    # If it's a range, average the range and report the number
+                    # (I decided to move away from the range concept)
+                    if column_validation_type is config.ColumnValidationTypes.RANGE:
+                        cell_value = self.__range_average(cell_value)
+                        
+                    dict[species][column_name] = cell_value
+                    
         self.dict = dict
         return dict
     
@@ -81,14 +87,14 @@ class Spreadsheet():
 
         taxa_sql = ''
         for taxon in self.config.getTaxaHierarchy():
-            taxa_sql += "'{taxon}' TEXT,".format(taxon=taxon)
-        taxa_sql = taxa_sql[:-1]
+            taxa_sql += "'{taxon}' TEXT,".format(taxon=taxon.lower())
+        taxa_sql = taxa_sql[:-1] # remove the comma on the final entry
         
         columns_sql = ''
         for column_name in self.config.getColumnNames():
-            columns_sql += "'{column_name}' {column_type},".format(column_name=column_name, column_type=self.config.getSqlDataType(column_name))
-        columns_sql = columns_sql[:-1]
-        
+            columns_sql += "'{column_name}' {column_type},".format(column_name=column_name.lower(), column_type=self.config.getSqlDataType(column_name))
+        columns_sql = columns_sql[:-1] # remove the comma on the final entry
+
         tables_sql['Microbe'] = '''CREATE TABLE Microbe (
             'microbe_id' INTEGER PRIMARY KEY AUTOINCREMENT,
             {taxa_sql},
@@ -138,12 +144,24 @@ class Spreadsheet():
             
             keys = ','.join(keys)
             values = ','.join(values)
-            
+
             cursor.execute("INSERT INTO 'Microbe' ({}) VALUES ({})".format(keys.lower(), values))
         
         connection.commit()
         connection.close()
-        
+    
+    def __range_average(self, range_string):
+        '''Averages the range and returns a single value'''
+        num_to_avg = []
+        ranges = range_string.split(',')
+        for range in ranges:
+            values = range.split(':')
+            values = list(map(float, values))
+            value = sum(values) / len(values)
+            num_to_avg.append(value)
+        avg = sum(num_to_avg) / len(num_to_avg)
+        return avg
+    
     def __split_taxa_string(self, taxa):
         '''Splits values from column 1 of spreadsheet into a list of discrete taxa'''
         expr = re.compile('[a-z]__([A-Za-z]+)')

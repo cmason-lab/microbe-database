@@ -1,4 +1,4 @@
-from openpyxl_cell_validation import validators
+from . import validators
 
 class MicrobeDirectoryCellValidatorFactory():
     def __createDefaultValidator(self):
