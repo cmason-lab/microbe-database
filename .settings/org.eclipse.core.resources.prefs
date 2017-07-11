@@ -1,5 +1,8 @@
 eclipse.preferences.version=1
 encoding//conference/main.py=utf-8
+encoding//curation/microbe_directory/openpyxl_cell_validation/validators.py=utf-8
+encoding//curation/microbe_directory/plotter.py=utf-8
+encoding//curation/visualize.py=utf-8
 encoding//submissions_automation/analyze_db.py=utf-8
 encoding//submissions_automation/db_to_json.py=utf-8
 encoding//submissions_automation/excel_to_db.py=utf-8
