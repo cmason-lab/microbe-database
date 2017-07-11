@@ -41,14 +41,10 @@ class Spreadsheet():
                 column_number = self.config.getColumnNumber(column_name)
                 column_validation_type = self.config.getColumnValidationType(column_name)
                 cell_value = str(self.ws.cell(row=row, column=column_number).value)
+                validated_value = self.validate_cell(cell_value, column_validation_type)
                 
-                if self.validate_cell(cell_value, column_validation_type):
-                    # If it's a range, average the range and report the number
-                    # (I decided to move away from the range concept)
-                    if column_validation_type is config.ColumnValidationTypes.RANGE:
-                        cell_value = self.__range_average(cell_value)
-                        
-                    dict[species][column_name] = cell_value
+                if validated_value:
+                    dict[species][column_name] = validated_value
                     
         self.dict = dict
         return dict
@@ -67,7 +63,7 @@ class Spreadsheet():
         elif type == ColumnValidationTypes.TERNARY:
             validator = validator_factory.createTernaryValidator()
         
-        return validator.isValid(value)
+        return validator.validate(value)
     
     def export_as_sqlite(self, db_path):
         try: self.dict
@@ -149,18 +145,6 @@ class Spreadsheet():
         
         connection.commit()
         connection.close()
-    
-    def __range_average(self, range_string):
-        '''Averages the range and returns a single value'''
-        num_to_avg = []
-        ranges = range_string.split(',')
-        for range in ranges:
-            values = range.split(':')
-            values = list(map(float, values))
-            value = sum(values) / len(values)
-            num_to_avg.append(value)
-        avg = sum(num_to_avg) / len(num_to_avg)
-        return avg
     
     def __split_taxa_string(self, taxa):
         '''Splits values from column 1 of spreadsheet into a list of discrete taxa'''
